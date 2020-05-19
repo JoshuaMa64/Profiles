@@ -112,59 +112,70 @@ Proxy:
 #   chacha20-ietf-poly1305 xchacha20-ietf-poly1305
 
 # Shadowsocks
-- name: "1"
-  type: ss
-  server: 1.2.4.8
-  port: 443
-  cipher: chacha20-ietf-poly1305
-  password: "password"
-  # udp: true
+# - name: "1"
+#   type: ss
+#   server: 1.2.4.8
+#   port: 443
+#   cipher: chacha20-ietf-poly1305
+#   password: "password"
+#   # udp: true
 
-# Shadowsocks + simple-obfs
-- name: "2"
-  type: ss
-  server: 1.2.4.8
-  port: 443
-  cipher: chacha20-ietf-poly1305
-  password: "password"
-  plugin: obfs
-  plugin-opts:
-    mode: tls # or http
-    # host: bing.com
+# # Shadowsocks + simple-obfs
+# - name: "2"
+#   type: ss
+#   server: 1.2.4.8
+#   port: 443
+#   cipher: chacha20-ietf-poly1305
+#   password: "password"
+#   plugin: obfs
+#   plugin-opts:
+#     mode: tls # or http
+#     # host: bing.com
 
 # Shadowsocks + v2ray-plugin
-- name: "3"
-  type: ss
-  server: 1.2.4.8
-  port: 443
-  cipher: chacha20-ietf-poly1305
-  password: "password"
-  plugin: v2ray-plugin
-  plugin-opts:
-    mode: websocket # no QUIC now
-    # tls: true # wss
-    # skip-cert-verify: true
-    # host: bing.com
-    # path: "/"
-    # mux: true
-    # headers:
-    #   custom: value
+# - name: "3"
+#   type: ss
+#   server: 1.2.4.8
+#   port: 443
+#   cipher: chacha20-ietf-poly1305
+#   password: "password"
+#   plugin: v2ray-plugin
+#   plugin-opts:
+#     mode: websocket # no QUIC now
+#     # tls: true # wss
+#     # skip-cert-verify: true
+#     # host: bing.com
+#     # path: "/"
+#     # mux: true
+#     # headers:
+#     #   custom: value
 
 # VMess
-- name: "4"
+- name: Kazan
   type: vmess
-  server: v2ray.cool
+  server: 46.29.165.204
   port: 443
-  uuid: a3482e88-686a-4a58-8126-99c9df64b7bf
-  alterId: 64
-  cipher: auto
-  # udp: true
-  # tls: true
-  # skip-cert-verify: true
-  # network: ws
-  # ws-path: /path
-  # ws-headers:
-  #   Host: v2ray.com
+  uuid: c26d4e80-2f49-43c7-8c17-52ebaf68af56
+  alterId: 233
+  cipher: none
+  tls: true
+  network: ws
+  ws-path: /
+  ws-headers:
+    Host: kazan.joshualc.me
+
+- name: Moscow
+  type: vmess
+  server: 85.117.234.172
+  port: 443
+  uuid: c1fa2f16-d87a-4c14-9ff1-3e3bfb7980ca
+  alterId: 233
+  cipher: none
+  tls: true
+  network: ws
+  ws-path: /
+  ws-headers:
+    Host: ru.joshualc.me
 
 # 其他协议如 Socks5、HTTP、Snell 示例如下
 
@@ -206,10 +217,8 @@ Proxy Group:
 - name: "UrlTest"
   type: url-test
   proxies:
-    - "1"
-    - "2"
-    - "3"
-    - "4"
+    - "Kazan"
+    - "Moscow"
   url: 'http://www.gstatic.com/generate_204'
   interval: 300
 
@@ -240,10 +249,8 @@ Proxy Group:
   type: select
   proxies:
     - "UrlTest"
-    - "1"
-    - "2"
-    - "3"
-    - "4"
+    - "Kazan"
+    - "Moscow"
 # 白名单模式 PROXY，黑名单模式 DIRECT
 - name: "Final"
   type: select
@@ -261,19 +268,15 @@ Proxy Group:
   type: select
   proxies:
     - "PROXY"
-    - "1"
-    - "2"
-    - "3"
-    - "4"
+    - "Kazan"
+    - "Moscow"
 # 大陆流媒体面向港澳台限定服务
 - name: "HKMTMedia"
   type: select
   proxies:
     - "DIRECT"
-    - "1"
-    - "2"
-    - "3"
-    - "4"
+    - "Kazan"
+    - "Moscow"
 # 运营商及声名狼藉网站劫持
 - name: "Hijacking"
   type: select
